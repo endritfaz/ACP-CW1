@@ -1,0 +1,38 @@
+spring:
+  application:
+     name: ACP-CW1
+
+  datasource:
+    url: "${acp.postgres}"
+    username: "${POSTGRES_USER:postgres}"
+    password: "${POSTGRES_PASSWORD:postgres}"
+    driver-class-name: org.postgresql.Driver
+    # HikariCP tuning (optional)
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yml
+
+server:
+  port: 8080
+
+
+acp:
+  # Connection string to the postgres service
+  postgres: ${ACP_POSTGRES:jdbc:postgresql://localhost:5432/postgres?options=-c search_path=ilp}
+
+  # S3 endpoint
+  s3-endpoint: ${ACP_S3:http://s3.localhost.localstack.cloud:4566}
+  s3-bucket: "s2286602"
+
+  # Dynamodb endpoint
+  dynamodb-endpoint: ${ACP_DYNAMODB:http://dynamodb.localhost.localstack.cloud:4566}
+  dynamodb-table: "s2286602"
+
+
+
+
+
