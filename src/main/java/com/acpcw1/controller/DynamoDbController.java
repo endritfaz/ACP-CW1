@@ -31,5 +31,8 @@ public class DynamoDbController {
         dynamoDbService.processData(urlRequest.getUrlPath());
     }
 
-    @PostMapping("p")
+    @PostMapping("copy-content/dynamo/{table}")
+    public void copyData(@PathVariable String table) throws JsonProcessingException {
+        dynamoDbService.copyData(table);
+    }
 }

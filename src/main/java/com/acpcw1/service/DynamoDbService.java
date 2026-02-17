@@ -33,6 +33,7 @@ public class DynamoDbService {
     private final SystemEnvironment systemEnvironment;
     private final DynamoDbConfiguration dynamoDbConfiguration;
     private final DroneService droneService;
+    private final PostgresService postgresService;
 
     public List<JsonNode> readAllData(String table) {
         return getDynamoDbClient()
@@ -81,6 +82,21 @@ public class DynamoDbService {
             String content = mapper.writeValueAsString(datum);
 
             createObject(table, key, content);
+        }
+    }
+
+    public void copyData(String table) throws JsonProcessingException {
+        List<Map<String, Object>> data = postgresService.getTableData(table);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (Map<String, Object> datum : data) {
+            String bucketContent = objectMapper.writeValueAsString(datum);
+
+            String dynamoDbTable = dynamoDbConfiguration.getDynamoDbTable();
+            String key = (String) datum.get("id");
+            String content = mapper.writeValueAsString(datum);
+
+            createObject(dynamoDbTable, key, content);
         }
     }
 
