@@ -5,6 +5,7 @@ import com.acpcw1.configuration.SystemEnvironment;
 import com.acpcw1.data.Drone;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TextNode;
@@ -26,8 +27,8 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class S3Service {
-    @Autowired
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper =
+            new ObjectMapper().enable(DeserializationFeature.FAIL_ON_TRAILING_TOKENS);
 
     private final S3Configuration s3Configuration;
     private final SystemEnvironment systemEnvironment;
@@ -73,7 +74,6 @@ public class S3Service {
             createBucketObject(s3Configuration.getS3Bucket(), drone.getName()
                     , bucketContent);
         }
-
     }
 
     public void copyData(String table) throws JsonProcessingException {

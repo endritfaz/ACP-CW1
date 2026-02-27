@@ -33,7 +33,10 @@ public class PostgresService {
 
     @Transactional
     public void createDroneUsingJdbc(Drone drone, String table) {
-        String sql = String.format("INSERT INTO %s (id, name, cooling, heating, capacity, max_moves, cost_per_move, cost_initial, cost_final) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", table);
+        String sql = String.format("INSERT INTO %s (id, name, cooling, " +
+                "heating, capacity, maxMoves, costPerMove, costInitial, " +
+                "costFinal, costPer100Moves) VALUES (?, ?, ?, ?, ?, ?, ?, ?, " +
+                "?, ?)", table);
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -46,6 +49,7 @@ public class PostgresService {
             ps.setBigDecimal(7, drone.getCapability().getCostPerMove());
             ps.setBigDecimal(8, drone.getCapability().getCostInitial());
             ps.setBigDecimal(9, drone.getCapability().getCostFinal());
+            ps.setBigDecimal(10, drone.getCostPer100Moves());
             return ps;
         });
     }

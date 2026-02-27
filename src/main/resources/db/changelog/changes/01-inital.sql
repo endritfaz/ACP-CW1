@@ -18,10 +18,11 @@ CREATE TABLE IF NOT EXISTS ilp.drones (
     cooling boolean default false not null,
     heating boolean default false not null,
     capacity numeric(10,2) not null,
-    max_moves integer not null,
-    cost_per_move numeric(10,2) not null,
-    cost_initial numeric(10,2) not null,
-    cost_final numeric(10,2) not null
+    maxMoves integer not null,
+    costPerMove numeric(10,2) not null,
+    costInitial numeric(10,2) not null,
+    costFinal numeric(10,2) not null
+    costPer100Moves numeric(10, 2) not null
     );
 
 CREATE TABLE IF NOT EXISTS ilp.drone_service_point_availability (
